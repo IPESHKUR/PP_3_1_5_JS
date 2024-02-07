@@ -28,6 +28,10 @@
           crossorigin="anonymous">
 </head>
 <body>
+<div th:if="${editUserError}" class="alert alert-danger alert-dismissible fade show" role="alert">
+    Data validation error. User data has not been updated
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
             <span class="navbar-text me-auto" th:text="${user.getName()} +
@@ -53,19 +57,19 @@
     </div>
     <!-- Content area for tabs -->
     <div class="col-10">
-        <div class="tab-content bg-light" id="v-pills-tabContent">
+        <div class="tab-content bg-light" id="v-pills-tabContent" >
             <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel"
                  aria-labelledby="v-pills-admin-tab">
                 <div class="d-flex align-content-center flex-wrap">
                     <h2><b>Admin panel</b></h2>
                 </div>
                 <!-- Nav tabs for different admin functions -->
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs" id="myTab" role="tablist" >
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab"
+                        <button class="nav-link" id="home-tab"
                                 data-bs-toggle="tab" data-bs-target="#home"
                                 type="button" role="tab"
-                                aria-controls="home" aria-selected="true"
+                                aria-controls="home"
                             th:classappend="${hasErrors} ? '' : 'active'"
                             th:attr="aria-selected=${hasErrors} ? 'false' : 'true'">Users table
                         </button>
@@ -81,7 +85,8 @@
                 </ul>
                 <!--table Users-->
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab"
+                         th:classappend="${hasErrors} ? '' : 'show active'">
                         <div class="my-container" id="my-container">
                             <table class="table table-striped table-hover caption-top">
                                 <p class="fs-5 ms-2">All users</p>
@@ -269,8 +274,8 @@
                             </table>
                         </div>
                     </div>
-                    <!--ADD -->
-                    <div class="tab-pane fade" id="newUser">
+                    <div class="tab-pane fade" id="newUser"
+                         aria-labelledby="new-user-tab"  th:classappend="${hasErrors} ? 'show active' : ''">
                         <div class="card">
                             <h5 class="card-header">Add new user</h5>
                             <div class="card-body text-center">
@@ -301,13 +306,15 @@
                                     <br>
                                     <label class="font-weight-bold" for="usernameNew">username</label>
                                     <br>
-                                    <input class="form-control" type="text" step="1" min="0" required minlength="1"
+                                    <input class="form-control" type="text" step="1" min="0"
                                            maxlength="120" name="username"
                                            id="usernameNew"
                                            style="height: 30px; width: 300px; margin: 0 auto"
-                                           placeholder="username"/>
-                                    <div th:if="${#fields.hasErrors('username')}"
-                                         th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error" data-bs-target="#newUser"></div>
+                                           placeholder="username"
+                                           th:errorclass="is-invalid" required/>
+                                    <td>
+                                        <th:block th:text="${Errors}"></th:block>
+                                    </td>
                                     <br>
                                     <label class="font-weight-bold" for="passwordNew">password</label>
                                     <br>
@@ -324,6 +331,7 @@
                                         <option selected="selected" value="ROLE_ADMIN">ADMIN</option>
                                     </select>
                                     <br/>
+
                                     <div>
                                         <button type="submit" class="btn btn-success">Add new user</button>
                                     </div>
@@ -332,6 +340,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <!-- Link User that Admin have -->
             <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">

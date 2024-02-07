@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private String surname;
     @Column
     private int age;
-    @Column
+    @Column(unique = true)
     private String username;
     @Column
     private String password;

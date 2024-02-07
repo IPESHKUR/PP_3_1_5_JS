@@ -10,7 +10,9 @@
 .adminPanel {
     margin-top: 1%;
 }
-
+.error-message {
+    color: red;
+}
 .optionalColor {
     background-color: #e6e6e6;
     color: black;
