@@ -30,52 +30,53 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping("/users")
     public String getAllUsers(Model model, Principal principal) {
         addAttributesToMainPage(model, principal);
-        return "adminPanel";
-    }
-    @PostMapping()
-    public String addUser(@ModelAttribute("userDto") @Valid UserDto userDto, BindingResult bindingResult,
-                          Model model, Principal principal) {
-        if (userService.existsByUsername(userDto.getUsername())) {
-            bindingResult.rejectValue("username",
-                    "Username already exists", "Username already exists");
-        }
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("hasErrors", true);
-            model.addAttribute("Errors","Username already exists");
-            addAttributesToMainPage(model, principal);
-            return "adminPanel";
-
-        }else {
-            userService.saveUser(userDto);
-            return "redirect:/admin";
-        }
+        return "admin";
     }
 
-    @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult,
-                             @PathVariable("id") Long id, Model model, Principal principal) {
-        User userByUsername = userService.getUserByUsername(userDto.getUsername());
-        if (userService.uniqueUsername(userDto.getUsername()) && !userByUsername.getId().equals(id)) {
-            bindingResult.rejectValue("username",
-                    "Username already exists", "Username already exists");
-        }
-        if (bindingResult.hasErrors()) {
-            addAttributesToMainPage(model, principal);
-            model.addAttribute("editUserError", true);
-            return "adminPanel";
-        }
-        userService.updateUser(userDto);
-        return "redirect:/admin";
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUsers(id);
-        return "redirect:/admin";
-    }
+//    @PostMapping()
+//    public String addUser(@ModelAttribute("userDto") @Valid UserDto userDto, BindingResult bindingResult,
+//                          Model model, Principal principal) {
+//        if (userService.existsByUsername(userDto.getUsername())) {
+//            bindingResult.rejectValue("username",
+//                    "Username already exists", "Username already exists");
+//        }
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("hasErrors", true);
+//            model.addAttribute("Errors","Username already exists");
+//            addAttributesToMainPage(model, principal);
+//            return "adminPanel";
+//
+//        }else {
+//            userService.saveUser(userDto);
+//            return "redirect:/admin";
+//        }
+//    }
+//
+//    @PatchMapping("/{id}")
+//    public String updateUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult,
+//                             @PathVariable("id") Long id, Model model, Principal principal) {
+//        User userByUsername = userService.getUserByUsername(userDto.getUsername());
+//        if (userService.uniqueUsername(userDto.getUsername()) && !userByUsername.getId().equals(id)) {
+//            bindingResult.rejectValue("username",
+//                    "Username already exists", "Username already exists");
+//        }
+//        if (bindingResult.hasErrors()) {
+//            addAttributesToMainPage(model, principal);
+//            model.addAttribute("editUserError", true);
+//            return "adminPanel";
+//        }
+//        userService.updateUser(userDto);
+//        return "redirect:/admin";
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public String deleteUser(@PathVariable("id") Long id) {
+//        userService.deleteUsers(id);
+//        return "redirect:/admin";
+//    }
 
     private void addAttributesToMainPage(Model model, Principal principal) {
 

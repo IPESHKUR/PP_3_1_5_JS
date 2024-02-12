@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.configs;
+package ru.kata.spring.boot_security.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,8 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/", "/index").permitAll()
-                .antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/user").permitAll()
+                .antMatchers("/api/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN") //.permitAll
+                .antMatchers(HttpMethod.GET, "/user").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)
@@ -42,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
-
+//.antMatchers(HttpMethod.GET, "/*").permitAll()
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

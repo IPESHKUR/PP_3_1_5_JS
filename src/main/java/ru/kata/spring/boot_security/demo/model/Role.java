@@ -21,24 +21,24 @@ public class Role implements GrantedAuthority {
     @Column
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "user_role",
-            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName="id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id",referencedColumnName="id")})
-    private Set<User> users = new HashSet<>();
+//    @ManyToMany
+//    @JoinTable(name = "user_role",
+//            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName="id")},
+//            inverseJoinColumns = {@JoinColumn(name = "user_id",referencedColumnName="id")})
+//    private Set<User> users = new HashSet<>();
     public Role() {}
 
     public Role(String name) {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+//    public Set<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(Set<User> users) {
+//        this.users = users;
+//    }
 
     @Override
     public String getAuthority() {
