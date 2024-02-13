@@ -9,34 +9,45 @@ async function editModal(id) {
 }
 
 function editUser() {
-    formEdit.addEventListener("submit", ev => {
+    formEdit.addEventListener("submit", async (ev) => {
         ev.preventDefault();
         let roles = [];
-        for (let i = 0; i < formEdit.roles.options.length; i++) {
+        for (let i =  0; i < formEdit.roles.options.length; i++) {
             if (formEdit.roles.options[i].selected) {
                 roles.push("ROLE_" + form.roles.options[i].text);
             }
-
-
         }
-        fetch("/api/users/" + formEdit.id.value, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: formEdit.id.value,
-                name: formEdit.name.value,
-                surname: formEdit.surname.value,
-                age: formEdit.age.value,
-                username: formEdit.username.value,
-                password: formEdit.password.value,
-                roles: roles
+        try {
+            const response = await fetch("/api/users/" + formEdit.id.value, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: formEdit.id.value,
+                    name: formEdit.name.value,
+                    surname: formEdit.surname.value,
+                    age: formEdit.age.value,
+                    username: formEdit.username.value,
+                    password: formEdit.password.value,
+                    roles: roles
+                })
+            });
 
-            })
-        }).then(() => {
+            if (!response.ok) {
+                // Обработка ошибки
+                const errorText = await response.text();
+                alert(`Ошибка при обновлении пользователя: ${errorText}`);
+                return;
+            }
+
+            // Закрытие модального окна и обновление таблицы
             $('#closeEdit').click();
-            getTableUser()
-        });
+            getTableUser();
+        } catch (error) {
+            // Обработка сетевых ошибок
+            console.error('Произошла ошибка:', error);
+            alert('Произошла ошибка при обновлении пользователя. Пожалуйста, попробуйте еще раз.');
+        }
     });
 }

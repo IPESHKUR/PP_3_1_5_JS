@@ -8,9 +8,8 @@
 </head>
 <body>
 <nav class="navbar sticky-top bg-dark text-white">
-        <span class="navbar-brand mb-0">
-            <span id="emailCurrentUser"></span> with roles:
-            <span id="roleCurrentUser"></span>
+    <span class="navbar-text me-auto" th:text="${user.getName()} +
+         ' with roles: ' + ${#strings.listJoin(user.getRoles(), ', ')}">
         </span>
     <a href="/logout" class="btn text-white-50" role="button" aria-pressed="true">Logout</a>
 </nav>

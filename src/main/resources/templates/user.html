@@ -9,10 +9,9 @@
 </head>
 <body>
 <nav class="navbar sticky-top bg-dark text-white">
-            <span class="navbar-brand mb-0">
-                <span class="h5" id="usernameCurrentUser"></span> with roles:
-                <span id="roleCurrentUser"></span>
-            </span>
+    <span class="navbar-text me-auto" th:text="${user.getName()} +
+         ' with roles: ' + ${#strings.listJoin(user.getRoles(), ', ')}">
+        </span>
     <a href="/logout" class="btn text-white-50" role="button" aria-pressed="true">Logout</a>
 </nav>
 <div class="container-fluid">
@@ -21,7 +20,7 @@
             <div class="container-fluid px-0">
                 <ul class="nav flex-column nav-pills ">
                     <li class="nav-item">
-                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <div>
                             <a class="nav-link" aria-current="page" href="/admin/users">Admin</a>
                         </div>
                     </li>

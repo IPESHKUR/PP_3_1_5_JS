@@ -41,7 +41,6 @@ public class RestApiController {
 
     @GetMapping("/users/one")
     public User getOneUser(Principal principal) {
-
         return userService.getUserByUsername(principal.getName());
     }
 

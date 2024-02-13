@@ -8,7 +8,8 @@ function getCurrentUser() {
             // const roles = user.roles.map(role => role.role).join(',')
             let role1;
             let ff = 0;
-            if (user.roles.length == 2) {
+
+            if (user.roles.length == 1) {
                 role1 = "ADMIN" + ", " + "USER"
             } else {
                 role1 = user.roles[ff].name.replace("ROLE_", "");

@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/", "/index").permitAll()
-                .antMatchers("/api/**").hasRole("ADMIN")
+                .antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN") //.permitAll
                 .antMatchers(HttpMethod.GET, "/user").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
@@ -43,7 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
-//.antMatchers(HttpMethod.GET, "/*").permitAll()
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
